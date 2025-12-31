@@ -1,0 +1,5 @@
+cd Desktop/Formação Django
+mkdir Aula_01
+python -m pip install pip setuptools wheel --upgrade 
+python -m venv venv
+venv\Scripts\activate
