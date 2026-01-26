@@ -1,52 +1,67 @@
 <div class="recipe recipe-list-item">
     <div class="recipe-cover">
-        <img src="https://placeholder.pics/svg/1280x720/3ACEFF-FFFDFC/A6FBFF-A3A3A3/Imagem" alt="Temporário">
+        <a href="{% url 'recipes-recipe' recipe.id %}"> <!--transforma a imagem em link para a receita apontando o id junto-->
+        <img src="{{recipe.cover.url}}" alt="Temporário">
+        </a> <!--cria imagens aleatorias feitas pelo faker-->
     </div>
     <div class="recipe-title-container">
-        <h2 class="recipe-title">{{ recipe.title }}</h2>
+        <h2 class="recipe-title">
+            <a href= "{% url 'recipes-recipe' recipe.id %}"> <!--link no título-->
+                {{ recipe.title }}</h2> <!--faker-->
+            </a>
     </div>
 
     <div class="recipe-author">
         <span class="recipe-author-item">
             <i class="fas fa-user"></i>
-            {{ recipe.author.first_name }} {{ recipe.author.last_name }}
+            {{ recipe.author.first_name }} {{ recipe.author.last_name }} <!--faker-->
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            {{ recipe.created_at|date:"d/m/Y" }} às {{ recipe.created_at|date:"H:i" }}
+            {{ recipe.created_at|date:"d/m/Y" }} às {{ recipe.created_at|date:"H:i" }} <!--faker-->
         </span>
         <span class="recipe-author-item">
             <a href="/recipes/category/cafe-da-manha/">
                 <i class="fas fa-layer-group"></i>
-                <span>{{ recipe.category.name }}</span>
+                <span>{{ recipe.category.name }}</span><!--faker-->
             </a>
         </span>
     </div>
 
     <div class="recipe-content">
-        <p>{{ recipe.description }}</p>
+        <p>{{ recipe.description }}</p> <!--faker-->
     </div>
 
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
             <div class="recipe-meta-text">
-                {{ recipe.preparation_time }} {{ recipe.preparation_time_unit }}
+                {{ recipe.preparation_time }} {{ recipe.preparation_time_unit }}<!--faker-->
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
             <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
             <div class="recipe-meta-text">
-                {{ recipe.servings }} {{ recipe.servings_unit }}
+                {{ recipe.servings }} {{ recipe.servings_unit }}<!--faker-->
             </div>
         </div>
     </div>
-
+    <!--uso do if inserido na view para retirar botão caso seja pagina detalhe-->
+    {% if is_datail_page is not True %}
     <footer class="recipe-footer">
-        <a class="recipe-read-more button button-dark button-full-width" href="/recipes/3/">
+        <a class="recipe-read-more button button-dark button-full-width" href="{% url 'recipes-recipe' recipe.id %}">
             <i class="fas fa-eye"></i>
             <span>ver mais...</span>
         </a>
     </footer>
+    {% endif %}
+
+    <!--if para mostrar a receita completa-->
+    {% if is_datail_page is True %}
+
+    <div class = "preparation_steps">
+        {{recipe.preparation_steps|linebreaksbr}}
+
+    {% endif %}
 
 </div>
