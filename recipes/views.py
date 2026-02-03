@@ -2,6 +2,13 @@ from django.shortcuts import render
 from utils.recipes.factory import make_recipe
 from .models import Recipe
 
+
+def category(request,category_id):
+    recipes = Recipe.objects.filter(category__id=category_id).order_by('-id') #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
+    return render(request,'recipes/pages/home.html',context={
+        'recipes': recipes #Manda para o template home.html a variável instanciada na ln 6
+    })
+
 def home(request):
     recipes = Recipe.objects.all().order_by('-id') #Mosrtra na tela todas as receitas cadastradas no DB por ordem descrescente de id
     return render(request,'recipes/pages/home.html',context={
