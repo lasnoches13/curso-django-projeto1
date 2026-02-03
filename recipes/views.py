@@ -5,7 +5,7 @@ from .models import Recipe
 
 def category(request,category_id):
     recipes = Recipe.objects.filter(category__id=category_id, is_published=True).order_by('-id') #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
-    return render(request,'recipes/pages/home.html',context={
+    return render(request,'recipes/pages/category.html',context={
         'recipes': recipes #Manda para o template home.html a variável instanciada na ln 6
     })
 

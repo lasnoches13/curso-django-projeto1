@@ -1,0 +1,12 @@
+{% extends 'global/base.html' %}
+
+{% block title %}Categoria | {% endblock title %}
+
+{% block content %}
+<div class="main-content main-content-list container">
+    {% for recipe in recipes %} <!--aqui se aplica loop em cima do 'context' da view (recipes:[make_recipe() for _ in range(10)],)-->
+    {% include 'recipes/partials/recipe.html' %}
+    {%endfor%}
+    
+</div>
+{% endblock content %}
