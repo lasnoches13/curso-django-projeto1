@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from utils.recipes.factory import make_recipe
+from django.http import Http404 # levantará erro 404 caso categoria não exista ln8
 from .models import Recipe
 
 def category(request,category_id):
     recipes = Recipe.objects.filter(category__id=category_id, is_published=True).order_by('-id') #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
+    if not recipes.exists(): # verifica se a consulta retornou algum resultado, caso não
+        raise Http404("Categoria não encontrada")
+    
     return render(request,'recipes/pages/category.html',context={
         'recipes': recipes, #Manda para o template home.html a variável instanciada na ln 6
-        'title' : f'{Recipe.objects.last().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
+        'title' : f'{recipes.first().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
     })
 
 def home(request):
