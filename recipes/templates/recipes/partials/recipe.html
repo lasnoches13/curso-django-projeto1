@@ -12,10 +12,17 @@
     </div>
 
     <div class="recipe-author">
-        <span class="recipe-author-item">
-            <i class="fas fa-user"></i>
-            {{ recipe.author.first_name }} {{ recipe.author.last_name }} <!--faker-->
-        </span>
+         {% if recipe.author is not None %} <!--verifica se o autor existe-->
+            <span class="recipe-author-item">
+                <i class="fas fa-user"></i>
+                {% if recipe.author.first_name %}<!--verifica se o autor tem primeiro nome-->
+                    {{ recipe.author.first_name }} {{ recipe.author.last_name }}
+                {% else %}
+                    {{ recipe.author.username }}<!--se não tiver primeiro nome, mostra o username-->
+                {% endif %}
+            </span>
+        {% endif %}
+
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
             {{ recipe.created_at|date:"d/m/Y" }} às {{ recipe.created_at|date:"H:i" }} <!--faker-->

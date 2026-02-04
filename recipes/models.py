@@ -36,9 +36,10 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(upload_to='Recipes/covers/%Y/%m/%d/')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,blank=True, default=None)
     author = models.ForeignKey(User, on_delete = models.SET_NULL, null = True)
 
     def __str__(self):
         return self.title
 
+# Category: quando apagado alguuma categoria as receitas que são da ccategoria não serão apagadas (SET.NULL) e será possivel atualizar informações no admin sem ser obrigatorio adicionar categoria (blank=True e default =None)
