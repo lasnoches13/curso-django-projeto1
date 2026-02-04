@@ -2,11 +2,11 @@ from django.shortcuts import render
 from utils.recipes.factory import make_recipe
 from .models import Recipe
 
-
 def category(request,category_id):
     recipes = Recipe.objects.filter(category__id=category_id, is_published=True).order_by('-id') #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
     return render(request,'recipes/pages/category.html',context={
-        'recipes': recipes #Manda para o template home.html a variável instanciada na ln 6
+        'recipes': recipes, #Manda para o template home.html a variável instanciada na ln 6
+        'title' : f'{Recipe.objects.last().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
     })
 
 def home(request):
@@ -16,8 +16,9 @@ def home(request):
     })
 
 def recipe(request, id):
-    recipee = Recipe.objects.get(id=id) # id do parametro da função será igual o id do Recipe.objects... A pagina só mostrará uma unica receita cujo os ids são iguais
+    recipee = Recipe.objects.get(id=id) # id do parametro da função será igual o id do Recipe.objects... A pagina só mostrará uma unica receita cujo os ids são iguais( quando o mouse passa pelo link ele ja aponta o path e o id do objeto, ao clicar a view executa a função.)
     return render(request, 'recipes/pages/recipe-view.html',context={
         'recipe': recipee,
         'is_datail_page':True,# retira botão caso seja pagina de detalhes
+        'title': f'{recipee.title}', # objeto ja istanciado na ln19, então aqui basta chamar o atributo 'title' cadastrado no model. outra forma seria chamar por Recipe.objects.get(id=id).
         })
