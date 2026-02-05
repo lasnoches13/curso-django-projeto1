@@ -67,8 +67,13 @@
     {% if is_datail_page is True %}
 
     <div class = "preparation_steps">
-        {{recipe.preparation_steps|linebreaksbr}}
+        {%if recipe.preparation_steps_is_html is True %} <!--verifica se o campo está em html-->
+            {{recipe.preparation_steps|safe}} <!--se estiver em html, renderiza como html-->
+        {% else %}
+            ️<!--se não estiver em html, renderiza com linebreaksbr-->
+            {{recipe.preparation_steps|linebreaksbr}}
+        {% endif %}
+    </div>
 
-    {% endif %}
-
+    {%endif%}
 </div>
