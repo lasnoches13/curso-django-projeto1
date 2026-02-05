@@ -1,16 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from utils.recipes.factory import make_recipe
 from django.http import Http404 # levantará erro 404 caso categoria não exista ln8
 from .models import Recipe
 
 def category(request,category_id):
-    recipes = Recipe.objects.filter(category__id=category_id, is_published=True).order_by('-id') #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
-    if not recipes.exists(): # verifica se a consulta retornou algum resultado, caso não
-        raise Http404("Categoria não encontrada")
+    #recipes = Recipe.objects.filter(
+        #category__id=category_id,
+        #is_published=True).order_by('-id') 
+
+    #category é um atributo do tipo foreignkey de Recipe(models ln 39), por tanto é necessário chamar o id da categoria aqui dentro de Recipe.objects através de {atributo+underline duplo+id} e filtrar com o id passado como arquimento na função. (id da receita clicada/escolhida na home)
+
+    #if not recipes.exists(): # verifica se a consulta retornou algum resultado, caso não
+    #   raise Http404("Categoria não encontrada")
     
+    recipes = get_list_or_404(Recipe.objects.filter(category__id=category_id, is_published=True).order_by('-id')) # get_list_or_404 
+    # é uma função do django que retorna uma lista de objetos ou levanta um erro 404 se a lista estiver vazia. Ele faz a mesma consulta que a linha 7, mas de forma mais eficiente, pois evita a necessidade de verificar manualmente se a consulta retornou resultados. Se a consulta não retornar nenhum resultado, o get_list_or_404 levantará automaticamente um erro 404, indicando que a categoria não foi encontrada. Se a consulta retornar resultados, o get_list_or_404 retornará a lista de objetos correspondentes à consulta, que pode ser usada para renderizar a página da categoria.
+
     return render(request,'recipes/pages/category.html',context={
         'recipes': recipes, #Manda para o template home.html a variável instanciada na ln 6
-        'title' : f'{recipes.first().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
+        #'title' : f'{recipes.first().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
+        'title' : f'{recipes[0].category.name}'
     })
 
 def home(request):
