@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from utils.recipes.factory import make_recipe
 #from django.http import Http404 # levantará erro 404 caso categoria não exista ln8
 from .models import Recipe
 
 def category(request,category_id):
+    # modo comum de fazer a consulta, sem usar get_list_or_404
     #recipes = Recipe.objects.filter(
         #category__id=category_id,
         #is_published=True).order_by('-id') 
@@ -29,7 +30,10 @@ def home(request):
     })
 
 def recipe(request, id):
-    recipee = Recipe.objects.get(id=id) # id do parametro da função será igual o id do Recipe.objects... A pagina só mostrará uma unica receita cujo os ids são iguais( quando o mouse passa pelo link ele ja aponta o path e o id do objeto, ao clicar a view executa a função.)
+    recipee = get_object_or_404(Recipe, id=id, is_published=True)
+    # id do parametro da função será igual o id do Recipe.objects... A pagina só mostrará uma unica receita cujo os ids são iguais( quando o mouse passa pelo link ele ja aponta o path e o id do objeto, ao clicar a view executa a função.)
+
+    
     return render(request, 'recipes/pages/recipe-view.html',context={
         'recipe': recipee,
         'is_datail_page':True,# retira botão caso seja pagina de detalhes
