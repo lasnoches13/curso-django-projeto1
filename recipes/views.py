@@ -24,7 +24,7 @@ def category(request,category_id):
     return render(request,'recipes/pages/category.html',context={
         'recipes': recipes, #Manda para o template home.html a variável instanciada na ln 16 para ser usada em loop for. Esse loop vai listar todas as receitas contidas na variável instanciada
         #'title' : f'{recipes.first().category.name}', # nome da categoria para ser exibido na aba da página categoru ln 3
-        'title' : f'{recipes.first().category.name}' if recipes else 'Categoria sem receitas'
+        'title' : f'{recipes.first().category.name}' if recipes else 'Categoria sem receitas' # nome da categoria para ser exibido na aba da página categoria ln 3. Se a consulta retornar resultados, o nome da categoria será exibido. Caso contrário, a mensagem "Categoria sem receitas" será exibida.
     })
 
 def home(request):
