@@ -4,8 +4,13 @@
 
 {% block content %}
 <div class="main-content main-content-list container">
+    
     {% for recipe in recipes %} <!--aqui se aplica loop em cima do 'context' da view (recipes:[make_recipe() for _ in range(10)],)-->
     {% include 'recipes/partials/recipe.html' %}
+    {% empty %} <!--caso a lista de receitas esteja vazia, mostra a mensagem abaixo-->
+    <div class="centered">
+    <h1> Nenhuma receita encontrada... &#x1F62D;</h1>
+    </div>
     {%endfor%}
     
 </div>

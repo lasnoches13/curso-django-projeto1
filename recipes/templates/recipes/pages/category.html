@@ -6,6 +6,8 @@
 <div class="main-content main-content-list container">
     {% for recipe in recipes %} <!--aqui se aplica loop em cima do 'context' da view (recipes:[make_recipe() for _ in range(10)],)-->
     {% include 'recipes/partials/recipe.html' %}
+    {% empty %} <!--caso a lista de receitas esteja vazia, mostra a mensagem abaixo-->
+        <h1> Ainda não temos nenhuma receita nessa categoria... &#x1F62D;</h1>
     {%endfor%}
     
 </div>
