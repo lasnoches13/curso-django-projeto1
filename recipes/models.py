@@ -26,6 +26,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length = 65)
     description = models.CharField(max_length = 165)
     slug = models.SlugField()
+    ingredients = models.TextField(blank = True)
     preparation_time = models.IntegerField()
     preparation_time_unit = models.ForeignKey(Preparation_time_unit,on_delete = models.SET_NULL,null=True)
     servings = models.IntegerField()
